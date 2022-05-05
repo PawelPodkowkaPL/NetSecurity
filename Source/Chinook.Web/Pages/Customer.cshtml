@@ -14,14 +14,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var customer in chinookContext.Customers.Take(20))
+        @foreach (var customer in chinookContext.Customers)
         {
         <tr>
             <td>@customer.Company</td>
-            <td>@customer.FirstName @customer.LastName</td>
+            <td>@customer.FirstName @Html.Raw(@customer.LastName)</td>
             <td>@customer.Email</td>
             <td>@customer.Phone</td>
         </tr>
         }
     </tbody>
+     
 </table>

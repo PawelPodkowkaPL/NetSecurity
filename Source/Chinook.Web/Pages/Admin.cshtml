@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.EntityFrameworkCore
 @model Chinook.Web.Pages.AdminModel
+@inject Chinook.Core.DataAccess.ChinookContext chinookContext
 @{
     var loadedAssemblies = Chinook.Web.Program.LoadedAssemblies.OrderBy(x => x.LoadTime);
+    var currentSource = chinookContext.Database.GetDbConnection().ConnectionString;
 }
 
 <table>
@@ -27,3 +30,4 @@
         }
     </tbody>
 </table>
+<p>Dear user your context is: @currentSource</p>

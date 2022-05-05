@@ -1,0 +1,42 @@
+﻿@page
+@using Chinook.Core.Domain
+@using Microsoft.EntityFrameworkCore
+@model Chinook.Web.Pages.CustomerEmployeeModel
+@inject Chinook.Core.DataAccess.ChinookContext chinookContext
+@{
+    var employees = new List<Employee>();
+
+    if (Model.CustomerName == "admin")
+    {
+        employees = chinookContext.Employees.FromSqlRaw($"SELECT * From Employees WHERE LastName != '{Model.CustomerName}'").ToList();
+    }
+    else
+    {
+        var customer = chinookContext.Customers.SingleOrDefault(x => x.LastName == Model.CustomerName);
+        if (customer?.SupportRep != null)
+        {
+            employees.Add(customer.SupportRep);
+        }
+    }
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in employees)
+        {
+        <tr>>
+            <td>@employee.FirstName @Html.Raw(@employee.LastName)</td>
+            <td>@employee.Email</td>
+            <td>@employee.Phone</td>
+        </tr>
+        }
+    </tbody>
+     
+</table>
